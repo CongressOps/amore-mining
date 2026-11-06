@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMORE Mining</title>
+</head>
+
+<body>
+  <h1>AMORE Mining</h1>
+  <p>Telegram Mining App</p>
+
+  <div>
+    <h2>Balance</h2>
+    <div id="balance">0.0000 AMORE</div>
+  </div>
+
+  <div>
+    <h2>⛏️ Active Mining</h2>
+    <p id="status">Running</p>
+    <button onclick="startMining()">Start Mining</button>
+  </div>
+
+  <script>
+    let balance = 0;
+
+    function startMining() {
+      document.getElementById("status").textContent = "Running";
+    }
+  </script>
+</body>
+</html>
