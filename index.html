@@ -1,32 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMORE Mining</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMORE Mining</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #080b12;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 480px;
+  margin: auto;
+  padding-bottom: 100px;
+}
+
+.header {
+  padding: 25px 22px 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: linear-gradient(135deg,#151922,#30210b);
+  border: 2px solid #f5a623;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  color: #f5a623;
+  box-shadow: 0 0 25px rgba(245,166,35,.2);
+}
+
+.brand h1 {
+  font-size: 25px;
+}
+
+.brand p {
+  color: #f5a623;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.card {
+  margin: 14px 20px;
+  padding: 22px;
+  border-radius: 25px;
+  background: #11151e;
+  border: 1px solid #252b38;
+}
+
+.balance-title {
+  color: #9ba2b2;
+  font-size: 15px;
+}
+
+.balance {
+  margin-top: 10px;
+  font-size: 38px;
+  font-weight: bold;
+}
+
+.coin {
+  color: #f5a623;
+  font-size: 18px;
+}
+
+.mining {
+  border: 1px solid #8b5d14;
+  background: linear-gradient(145deg,#121720,#0d1118);
+}
+
+.mining-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mining-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.running {
+  color: #25d68a;
+  margin-top: 8px;
+}
+
+.running::before {
+  content: "● ";
+}
+
+.start {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.mine-amount {
+  font-size: 40px;
+  color: #00dc76;
+  font-weight: bold;
+}
+
+.mine-amount span {
+  font-size: 18px;
+  color: #00dc76;
+}
+
+.mine-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background: #f5a623;
+  color: #111;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.progress {
+  height: 8px;
+  background: #080a0e;
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 35%;
+  background: #f5a623;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  margin: 14px 20px;
+}
+
+.stat {
+  background: #11151e;
+  border: 1px solid #252b38;
+  border-radius: 20px;
+  padding: 17px 8px;
+  text-align: center;
+}
+
+.stat small {
+  color: #8f96a7;
+}
+
+.stat strong {
+  display: block;
+  font-size: 20px;
+  margin: 7px 0;
+}
+
+.orange {
+  color: #f5a623;
+}
+
+.green {
+  color: #20d68a;
+}
+
+.level {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #754f13;
+  border-radius: 22px;
+  background: #11151e;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.level-box {
+  width: 65px;
+  height: 65px;
+  border-radius: 16px;
+  border: 1px solid #f5a623;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #f5a623;
+}
+
+.level-box small {
+  font-size: 11px;
+}
+
+.level-box strong {
+  font-size: 25px;
+}
+
+.level-info h3 {
+  font-size: 18px;
+}
+
+.level-info p {
+  color: #9ca3b3;
+  margin-top: 5px;
+}
+
+.level-info span {
+  color: #20d68a;
+}
+
+.nav {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 30px);
+  max-width: 450px;
+  background: rgba(16,20,29,.96);
+  border: 1px solid #292f3b;
+  border-radius: 25px;
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  padding: 12px 5px;
+}
+
+.nav button {
+  background: none;
+  border: none;
+  color: #777f91;
+  font-size: 13px;
+  padding: 8px 2px;
+}
+
+.nav button.active {
+  color: #f5a623;
+}
+
+.nav-icon {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.message {
+  text-align: center;
+  color: #777f91;
+  font-size: 12px;
+  padding: 5px 20px;
+}
+</style>
 </head>
 
 <body>
-  <h1>AMORE Mining</h1>
-  <p>Telegram Mining App</p>
 
-  <div>
-    <h2>Balance</h2>
-    <div id="balance">0.0000 AMORE</div>
+<div class="app">
+
+  <div class="header">
+    <div class="brand">
+      <div class="logo">A</div>
+
+      <div>
+        <h1>AMORE Mining</h1>
+        <p>OFFICIAL WEB3 APP</p>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <h2>⛏️ Active Mining</h2>
-    <p id="status">Running</p>
-    <button onclick="startMining()">Start Mining</button>
+  <div class="card">
+    <div class="balance-title">App Balance</div>
+
+    <div class="balance">
+      <span id="balance">0.0000</span>
+      <span class="coin">AMORE</span>
+    </div>
   </div>
 
-  <script>
-    let balance = 0;
+  <div class="card mining">
 
-    function startMining() {
-      document.getElementById("status").textContent = "Running";
-    }
-  </script>
+    <div class="mining-header">
+      <div>
+        <div class="mining-title">⛏ Active Mining</div>
+        <div class="running">Running</div>
+      </div>
+
+      <div class="orange">Leagues ⓘ</div>
+    </div>
+
+    <div class="start">
+      <div class="mine-amount">
+        +<span id="mined">0.0000</span>
+        <span>AMORE</span>
+      </div>
+
+      <button class="mine-btn" onclick="startMining()">
+        Start Mining
+      </button>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar"></div>
+    </div>
+
+    <p class="message">
+      Mining rate: 15 AMORE / hour
+    </p>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>⚡ Hourly</small>
+      <strong class="orange">15.0</strong>
+      <small>AMORE</small>
+    </div>
+
+    <div class="stat">
+      <small>📅 Daily</small>
+      <strong class="green">~360</strong>
+      <small>AMORE</small>
+    </div>
+
+    <div class="stat">
+      <small>↗ Boost</small>
+      <strong class="orange">×1</strong>
+      <small>multiplier</small>
+    </div>
+
+  </div>
+
+  <div class="level">
+
+    <div class="level-box">
+      <small>LVL</small>
+      <strong>1</strong>
+    </div>
+
+    <div class="level-info">
+      <h3>Bronze League</h3>
+      <p>Wallet Hold: <span>0 AMORE</span></p>
+      <p>⚡ Determines your level & speed</p>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="nav">
+
+  <button class="active">
+    <span class="nav-icon">⛏</span>
+    Mining
+  </button>
+
+  <button>
+    <span class="nav-icon">🛍</span>
+    Shop
+  </button>
+
+  <button>
+    <span class="nav-icon">☷</span>
+    Menu
+  </button>
+
+  <button>
+    <span class="nav-icon">👥</span>
+    Friends
+  </button>
+
+</div>
+
+<script>
+
+let balance = 0;
+let mining = false;
+
+function startMining() {
+
+  if (mining) return;
+
+  mining = true;
+
+  const btn = document.querySelector(".mine-btn");
+
+  btn.textContent = "Mining Active";
+  btn.style.background = "#20d68a";
+
+  setInterval(() => {
+
+    balance += 0.004166;
+
+    document.getElementById("balance").textContent =
+      balance.toFixed(4);
+
+    document.getElementById("mined").textContent =
+      balance.toFixed(4);
+
+  }, 1000);
+}
+
+</script>
+
 </body>
 </html>
